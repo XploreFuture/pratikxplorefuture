@@ -138,20 +138,8 @@
         <label for="appaffby">Approved/Affiliated by:</label>
         <input type="text" id="appaffby" name="appaffby" required><br><br>
 
-        <label for="Stream">Stream:</label>
-        <select id="Stream" name="Stream">
-            <option value="Management">Management</option>
-            <option value="Engineering">Engineering</option>
-            <option value="Science">Science</option>
-            <option value="Arts">Arts</option>
-            <option value="Commerce">Commerce</option>
-            <option value="Medical">Medical</option>
-            <option value="Pharmacy">Pharmacy</option>
-            <option value="Law">Law</option>
-        </select><br><br>
-
         <label for="Courseoffered">Courses Offered:</label>
-        <select id="Courseoffered" name="Courseoffered">
+        <select id="Courseoffered" name="Courseoffered"multiple>
              <option value="Undergraduate">Undergraduate</option>
             <option value="Postgraduate">Postgraduate</option>
             <option value="Diploma">Diploma</option>
@@ -161,9 +149,6 @@
         <label for="avcourse">avcourse</label>
         <input type="text" id="avcourse" name="avcourse" required>
         <select id="courseav" name="courseav" multiple>
-            <option value="SC">Select Category</option>
-         <option value="Agriculture">Agriculture (1)</option>
-         <option value="select">Select Category</option>
          <option value="Agriculture">Agriculture</option>
          <option value="AIIMS">AIIMS</option>
          <option value="ANM">ANM</option>
@@ -208,7 +193,6 @@
          <option value="M.Ed">M.Ed</option>
          <option value="M.Phil">M.Phil</option>
          <option value="MA">MA</option>
-         <option value="Main Slide">Main Slide</option>
          <option value="Management">Management</option>
          <option value="MBA College">MBA College</option>
          <option value="MBBS">MBBS</option>
@@ -228,7 +212,6 @@
          <option value="PGDM">PGDM</option>
          <option value="PhD">PhD</option>
          <option value="Private College">Private College</option>
-         <option value="Xplorefuture Content">Xplorefuture Content</option>
 </select>
 <button onclick="getSelectedValues()">Get Categories</button><br><br>
 
@@ -267,7 +250,7 @@
     </table>
 
     <script>
-        function getSelectedValues() {
+        async function getSelectedValues() {
             var select = document.getElementById('courseav');
             var selectedValues = [];
             for (var i = 0; i < select.options.length; i++) {
@@ -279,8 +262,8 @@
         }
         async function getOrCreateTag(tagName) {
             const url = 'https://xplorefuture.com/wp-json/wp/v2/tags';
-            const username = 'Tushar'; // Replace with your WordPress username
-            const password = 'Di%7k4xlxGS&CrvGB)ugmgMY'; // Replace with your WordPress application password
+            const username = 'Pratik'; // Replace with your WordPress username
+            const password = 'wiRuTKTE&sOXCPhPKawvvB5o'; // Replace with your WordPress application password
             const credentials = btoa(`${username}:${password}`);
 
             try {
@@ -313,8 +296,8 @@
 
          async function getOrCreateCategory(categoryName) {
             const url = 'https://xplorefuture.com/wp-json/wp/v2/categories';
-            const username = 'Tushar'; // Replace with your WordPress username
-            const password = 'Di%7k4xlxGS&CrvGB)ugmgMY'; // Replace with your WordPress application password
+            const username = 'Pratik'; // Replace with your WordPress username
+            const password = 'wiRuTKTE&sOXCPhPKawvvB5o'; // Replace with your WordPress application password
             const credentials = btoa(`${username}:${password}`);
 
             try {
@@ -346,8 +329,8 @@
         }
         async function sendPostToWordpress(title, content, excerpt, tags, categories) {
     const url = 'https://xplorefuture.com/wp-json/wp/v2/posts';
-    const username = 'Tushar'; // Replace with your WordPress username
-    const password = 'Di%7k4xlxGS&CrvGB)ugmgMY'; // Replace with your WordPress application password
+    const username = 'Pratik'; // Replace with your WordPress username
+    const password = 'wiRuTKTE&sOXCPhPKawvvB5o'; // Replace with your WordPress application password
     const credentials = btoa(`${username}:${password}`);
 
     try {
@@ -389,7 +372,6 @@
             let Typeofcollege = document.getElementById('Typeofcollege').value;
             let appaff = document.getElementById('appaff').value;
             let appaffby = document.getElementById('appaffby').value;
-            let Stream = document.getElementById('Stream').value;
             let Courseoffered = document.getElementById('Courseoffered').value;
             let avcourse = document.getElementById('avcourse').value;
             let Entranceexam = document.getElementById('Entranceexam').value;
@@ -398,8 +380,14 @@
             let Toprecruiter = document.getElementById('Toprecruiter').value;
 
             // Constructing the paragraph with headings
-            let paragraph = `<h3>Info</h3><p>${Collegename}, ${city}, ${state} established in year ${established} ranked as the best ${Stream} college of India. This is a ${Typeofcollege} ${appaff} by ${appaffby}.</p>`;
-            paragraph += `<p>${Collegename} has various departments in the ${Courseoffered} Program. ${avcourse} is a Popular Course in the Institute. Admission to the college is done by ${Entranceexam}.</p>`;
+            let paragraph = `<h3>Info</h3><p>${Collegename}, ${city}, ${state} established in year ${established}.It is a reputed institute and offers various ${Courseoffered} courses in full-time mode.${Collegename} is a ${Typeofcollege} ${appaff} by ${appaffby}.</p>`;
+            paragraph += ` Some of the most popular courses offered at the institute are ${avcourse} etc. Admission to the college is done by ${Entranceexam}.</p>`;
+            paragraph += `<table>
+        <tr><th>Type of College</th><td>${Typeofcollege}</td></tr>
+        <tr><th>Established</th><td>${established}</td></tr>
+        <tr><th>Affiliated/Approved by</th><td>${appaffby}</td></tr>
+        <tr><th>Entrance Exam</th><td>${Entranceexam}</td></tr>
+    </table>`;
             paragraph += `<h3>Courses and Fees</h3><p>The Courses of the ${Courseoffered} Program offered by the institute are listed below.</p>`;
             paragraph += `<table><tr><th>Course</th><th>Fee</th></tr>`;
 
@@ -409,9 +397,18 @@
                 paragraph += `<tr><td>${cells[0].innerText}</td><td>${cells[1].innerText}</td></tr>`;
             }
             paragraph += `</table>`;
-            paragraph += `<h3>Placement</h3><p>The placement cell of ${Collegename} has made an impeccable impression on the industry by forging a right balance between academics and industry. The Highest Package offered by the Recruiter is ${Highestpackage}. The Average Package provided by the institute is ${Averagepackage}.</p>`;
-            paragraph += `<h3>Top Recruiter</h3><p>Top recruiters include</p> <p><strong>${Toprecruiter}.</strong></p>`;
-            
+             // Conditional placement section
+    if (Highestpackage && Averagepackage) {
+        paragraph += `<h3>Placement</h3><p>The placement cell of ${Collegename} has made an impeccable impression on the industry by forging a right balance between academics and industry. The Highest Package offered by the Recruiter is ${Highestpackage}. The Average Package provided by the institute is ${Averagepackage}.</p>`;
+        paragraph += `<table><tr><th>Highest Package</th><th>Average Package</th></tr>`;
+        paragraph += `<tr><td>${Highestpackage}</td><td>${Averagepackage}</td></tr></table>`;
+    }
+    
+
+    // Top recruiter section (included only if Toprecruiter is provided)
+    if (Toprecruiter) {
+        paragraph += `<h3>Top Recruiter</h3><p>Top recruiters include</p> <p><strong>${Toprecruiter}.</strong></p>`;
+    }
             
             let excerpt = `${Collegename} is a ${Typeofcollege} of ${state} present in the city of ${city}. It offers various ${Courseoffered} Courses`;
             // Display the generated paragraph
@@ -422,8 +419,14 @@ const tags = await Promise.all([getOrCreateTag(city), getOrCreateTag(state)]);
 const categories = await Promise.all(avcourse.split(',').map(course => getOrCreateCategory(course.trim())));
 
 sendPostToWordpress(Collegename,paragraph,excerpt, tags, categories);
-           
-        }
+
+}
+            // Reset form and course table
+    document.querySelector('form').reset(); // Reset the form fields
+
+// Clear the course table
+document.getElementById('courseTable').getElementsByTagName('tbody')[0].innerHTML = '';
+
 
         function addCourse() {
             // Get input values
